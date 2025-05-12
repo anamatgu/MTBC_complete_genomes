@@ -30,3 +30,8 @@ python3 /LongQC/longQC.py sampleqc -x pb-rs2 -s SAMPLE -o SAMPLE_QC SAMPLE.fastq
 ```
 pbmm2 align MTBCA_reference.fasta SAMPLE.fastq SAMPLE.sort.bam --preset CCS --sort --sample SAMPLE --rg '@RG\tID:mXXXXX\tSM:mysample'
 ```
+
+### Error rate
+
+```
+```
