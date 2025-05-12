@@ -4,5 +4,4 @@ This repository has been created to describe the steps followed in this study: '
 1. Quality control of long reads and filtering
 2. De novo assembly and polishing
 3. Assembly quality control and liftover
-5. Refinement of Multiple Genome Alignment
-6. Variant calling from Multiple Genome Alignment
+5. Multiple Genome Alignment: refinement and variant calling
