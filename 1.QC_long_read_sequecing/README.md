@@ -4,6 +4,8 @@
 
 ### Taxonomic filtering using Kraken and KrakenTools
 
+https://ccb.jhu.edu/software/kraken/
+
 ```
 /Kraken/kraken --db /KrakenDB/KRefSeqHumanSARS/ --fastq-input  --output SAMPLE.kraken --threads 20 --gzip-compressed SAMPLE.fastq.gz
 ```
