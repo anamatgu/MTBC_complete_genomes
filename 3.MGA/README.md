@@ -20,6 +20,19 @@ Obtener pairwise distance entre MTB ancestor y todas las secuencias (pueden tene
 ```
 python3 /data/ana_compartido/PACBIO/scripts_PACBIO/pairwise_distances/MTBanc.maf.pairwise.multiprocess.py cactus_noAnc_final.maf ids_maf_wcontig
 ```
+Obtener pairwise distances con minimap2
+
+```
+minimap2 -x asm5 -t 1 -c --cs CCS_G1446.fbAF90.fasta CCS_G1369.fbAF90.fasta | sort -k6,6 -k8,8n | /home/ana/SoftAna/miniconda3/envs/minimap_V2.26/bin/paftools.js call -l 50 -L 50 -f CCS_G1446.fbAF90.fasta - > call.paf
+
+```
+
+Obtener pairwise distance con dnadiff
+
+```
+dnadiff /data/ana_compartido/PACBIO/MTB_annotations/MTBancestor_annotation/MTBancestor.fna {}.fasta -p {}-MTBanc
+```
+
 Determinar la concordancia entre cactus, dnadiff y minimap2
 ```
 python3 refine_maf_wcontig.py ids_maf_wcontig
