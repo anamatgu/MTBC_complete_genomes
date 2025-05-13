@@ -45,3 +45,7 @@ Ordenar las secuencias en cada bloque del MAF
 
 
 ### Pairwise genetic distances from MGA
+
+```
+python3 /data/ana_compartido/PACBIO/scripts_PACBIO/pairwise_distances/all_to_all.mafmasked.pairwise.multiprocess.py cactus_noAnc_final_masked.sorted.1contig.maf ids_maf_1contig
+```
