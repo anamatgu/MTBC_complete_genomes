@@ -44,4 +44,4 @@ To obtain the mismatch rate, the BAM files must be converted to SAM format with 
 ```
 python mismatch_rate.py
 ```
-This script will output the following parameters in CSV format: 
+This script will output the following parameters in CSV format: Sample ID, Read name, Read position, number of SNPs, number of indels, Read length, Single mismatches rate, Total mismatches rate
