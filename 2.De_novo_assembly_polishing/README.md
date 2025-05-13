@@ -16,11 +16,11 @@ circlator all --assembler canu SAMPLE_ASM.fasta SAMPLE.fastq.gz SAMPLE_ASM.circl
 ### Customized polishing with long reads
 
 ```
-samtools faidx ASM.fasta
+samtools faidx SAMPLE_ASM.fasta
 
+pbmm2 align SAMPLE_ASM.fasta SAMPLE.fastq SAMPLE_ASM_LRS.sort.bam --preset CCS --sort --sample SAMPLE --rg '@RG\tID:mXXXXX\tSM:mysample'
 
-
-freebayes -f SAMPLE_ASM.fasta -m 0 --min-coverage 3 -R 0 -p 1 -F 0.1 -E -1 -b ASM_LRS.sort.bam --vcf SAMPLE.AF10.vcf
+freebayes -f SAMPLE_ASM.fasta -m 0 --min-coverage 3 -R 0 -p 1 -F 0.1 -E -1 -b SAMPLE_ASM_LRS.sort.bam --vcf SAMPLE.AF10.vcf
 
 cat SAMPLE.AF10.vcf | vt normalize - -r SAMPLE.fasta -q > SAMPLE.vt.AF10.vcf; done
 ```
