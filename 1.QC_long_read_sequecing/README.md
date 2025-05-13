@@ -39,7 +39,7 @@ pbmm2 align MTBCA_reference.fasta SAMPLE.fastq SAMPLE.sort.bam --preset CCS --so
 ```
 
 ### Mismatch rate
-To obtain the mismatch rate, the BAM files must be converted to SAM format with the =/X CIGAR. The following script will detect all SAM files in the directory:
+To obtain the mismatch rate, the BAM files were converted to SAM format with the =/X CIGAR. The following script detects all SAM files with the suffix .eqx.sam in the directory:
 
 ```
 python mismatch_rate.py
