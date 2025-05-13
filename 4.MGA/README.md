@@ -1,1 +1,47 @@
-## Multiple Genome Alingment
+## Multiple Genome Alingment (MGA)
+### Construction of MGA
+
+```
+cactus-minigraph jobstore asmhifi_217.txt cactus.sv.gfa --reference MTB_ancestor_reference --mapCores XX
+
+cactus-graphmap jobstore asmhifi_217.txt cactus.sv.gfa cactus.paf --outputFasta cactus.sv.gfa.fa --reference MTB_ancestor_reference --mapCores 
+
+cactus-align jobstore asmhifi_217.txt cactus.paf cactus.hal --reference MTB_ancestor_reference --pangenome --outVG --maxLen 10000
+
+cactus-graphmap-join jobstore --vg cactus.vg --outDir cactus_final_pangenome --outName cactus_pangenome --reference MTB_ancestor_reference --vcf --gfa --gbz --giraffe clip --haplo --odgi
+
+cactus-hal2maf ./jobstore cactus.hal cactus_noAnc.maf.gz --refGenome MTB_ancestor_reference --chunkSize 500000 --dupeMode single --noAncestors
+```
+
+
+### Refinement of MGA
+
+Obtener pairwise distance entre MTB ancestor y todas las secuencias (pueden tenerse en cuenta los contigs o no)
+```
+python3 /data/ana_compartido/PACBIO/scripts_PACBIO/pairwise_distances/MTBanc.maf.pairwise.multiprocess.py cactus_noAnc_final.maf ids_maf_wcontig
+```
+Determinar la concordancia entre cactus, dnadiff y minimap2
+```
+python3 refine_maf_wcontig.py ids_maf_wcontig
+```
+Unir en una carpeta los snps que vamos a descartar:
+```
+cat ambigous_discard.refine.snps not_nucmer_not_minimap.refine.snps | sort -n > SNPsMASK.refine.snps
+```
+QUITAR NOMBRES RAROS DE los contigs de *.change como ‘manual’ y las coordenadas
+
+Crear un archivo con los ids de los assemblies que tienen HZ calls:
+
+(está en el cvs refine)
+
+Correr el script para maskear con Ns las posiciones:
+```
+python3 ../mask_FP_calls_maf.py ids_HZcalls SNPsMASK.refine.snps
+```
+Ordenar las secuencias en cada bloque del MAF
+```
+/home/ana/cactus-bin-v2.8.4/bin/mafRowOrderer -m cactus_noAnc_final_masked.maf --order-file ids_cactus_maflist > cactus_noAnc_final_masked.sorted.maf
+```
+
+
+### Pairwise genetic distances from MGA
