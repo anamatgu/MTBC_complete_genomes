@@ -1,4 +1,4 @@
-## _De novo_ assembly and polishing
+## _De novo_ assembly, polishing and lift-over
 
 ### _De novo_ assembly with Flye
 Once the long reads were filtered, de novo assembly was performed with [Flye](https://github.com/mikolmogorov/Flye) (v2.9.2) with two polishing iterations:
