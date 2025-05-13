@@ -11,7 +11,7 @@ kraken --db /KrakenDB/KRefSeqHumanSARS/ --fastq-input  --output SAMPLE.kraken --
 kraken-report --db /KrakenDB/KRefSeqHumanSARS/ SAMPLE.kraken > SAMPLE.kraken.report
 ```
 
-To keep only those reads belonging to the Mycobacterium tuberculosis complex, the following script from [KrakenTools](https://github.com/jenniferlu717/KrakenTools) can be used:
+To keep only those reads belonging to the Mycobacterium tuberculosis complex, the following script from [KrakenTools](https://github.com/jenniferlu717/KrakenTools) (v1.2) can be used:
 
 ```
 python /KrakenTools-1.2/extract_kraken_reads.py -k SAMPLE.kraken -s SAMPLE.fastq.gz -o SAMPLE.filtered.fastq -t 77643 --fastq-output -r SAMPLE.kraken.report --include-children -r
