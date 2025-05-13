@@ -32,7 +32,7 @@ The basic statistics for long-read sequencing with PacBio Sequel II can be obtai
 ```
 python3 /LongQC/longQC.py sampleqc -x pb-rs2 -s SAMPLE -o SAMPLE_QC SAMPLE.fastq.gz
 ```
-Additionally, long reads were mapped against the MTBC ancestor reference genome using [pbmm2](https://github.com/PacificBiosciences/pbmm2) to determine the horizontal coverage and depth with a customized bash script:
+Additionally, long reads were mapped against the MTBC ancestor reference genome using [pbmm2](https://github.com/PacificBiosciences/pbmm2) (v1.13) to determine the horizontal coverage and depth with a customized bash script:
 
 ```
 pbmm2 align MTBCA_reference.fasta SAMPLE.fastq SAMPLE.sort.bam --preset CCS --sort --sample SAMPLE --rg '@RG\tID:mXXXXX\tSM:mysample'
