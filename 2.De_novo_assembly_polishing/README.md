@@ -29,3 +29,10 @@ Indicate the path to vt in the script
 ```
 python polishing.py SAMPLE.vt.AF10.vcf SAMPLE_ASM.fasta
 ```
+
+
+### Lift over of H37Rv genomic coordinates
+
+```
+liftoff -g H37Rv.gff3 -o SAMPLE_ASM.gff3 -u SAMPLE.unmapped_features -dir SAMPLE.intermediate_files SAMPLE_ASM.fasta Mycobacterium_tuberculosis_H37Rv_genome.fasta -copies -f additional -overlap 0.2
+```
