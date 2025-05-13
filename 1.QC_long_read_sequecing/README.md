@@ -27,19 +27,27 @@ bash /HiFiAdapterFilt-2.0.0/pbadapterfilt.sh -t 15
 
 ### Quality control
 
-The basic statistics for long-read sequencing with PacBio Sequel II can be obtained using [LongQC](https://github.com/yfukasawa/LongQC) and the following parameters:
+The basic statistics for long-read sequencing with PacBio Sequel II can be obtained using [LongQC](https://github.com/yfukasawa/LongQC) (v1.2.0b) and the following parameters:
 
 ```
 python3 /LongQC/longQC.py sampleqc -x pb-rs2 -s SAMPLE -o SAMPLE_QC SAMPLE.fastq.gz
 ```
-Additionally, long reads were mapped against the MTBC ancestor reference genome using [pbmm2](https://github.com/PacificBiosciences/pbmm2) to determine the horizontal coverage and depth.
+Additionally, long reads were mapped against the MTBC ancestor reference genome using [pbmm2](https://github.com/PacificBiosciences/pbmm2) to determine the horizontal coverage and depth with a customized bash script:
 
 ```
 pbmm2 align MTBCA_reference.fasta SAMPLE.fastq SAMPLE.sort.bam --preset CCS --sort --sample SAMPLE --rg '@RG\tID:mXXXXX\tSM:mysample'
+
+bash basic_statistics_LRS.sh SAMPLE.sort.bam
 ```
 
 ### Mismatch rate
-To obtain the mismatch rate, the BAM files were converted to SAM format with the =/X CIGAR. The following script detects all SAM files with the suffix .eqx.sam in the directory:
+To obtain the mismatch rate, long reads were mapped against the MTBC ancestor reference genome using [minimap2](https://github.com/lh3/minimap2) (v2.26) to generate a read alignment in SAM format with the =/X CIGAR:
+
+```
+minimap2 -ax map-hifi -Y -L --eqx --secondary=no -R @RG\\tID:mXXXXX\\tSM:SAMPLE MTBCA_reference.fasta SAMPLE.fastq.gz > SAMPLE.eqx.sam
+```
+
+The following script detects all SAM files with the suffix .eqx.sam in the directory:
 
 ```
 python mismatch_rate.py
