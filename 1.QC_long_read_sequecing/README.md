@@ -6,9 +6,9 @@ Before performing _de novo_ assembly, long reads were filtered by taxonomy and r
 Long reads were classified by taxonomy with [Kraken](https://ccb.jhu.edu/software/kraken/) (v1) 
 
 ```
-/Kraken/kraken --db /KrakenDB/KRefSeqHumanSARS/ --fastq-input  --output SAMPLE.kraken --threads 20 --gzip-compressed SAMPLE.fastq.gz
+kraken --db /KrakenDB/KRefSeqHumanSARS/ --fastq-input  --output SAMPLE.kraken --threads 20 --gzip-compressed SAMPLE.fastq.gz
 
-/Kraken/kraken-report --db /KrakenDB/KRefSeqHumanSARS/ SAMPLE.kraken > SAMPLE.kraken.report
+kraken-report --db /KrakenDB/KRefSeqHumanSARS/ SAMPLE.kraken > SAMPLE.kraken.report
 ```
 
 To keep only those reads belonging to the Mycobacterium tuberculosis complex, the following script from [KrakenTools](https://github.com/jenniferlu717/KrakenTools) can be used:
