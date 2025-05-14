@@ -37,25 +37,29 @@ dnadiff MTBCA_ref.fasta SAMPLE_ASM.fasta -p prefix
 ```
 Once all single variants were identified, the following script was run to classify them based on the concordance between methods. The file samples_ids_in_maf.txt must contain all the sample IDs in the MGA (maf format), one per row. The files with the results of the variant calling from each approach must match the following names:
 ```
-python3 refine_maf.py samples_ids_in_maf.txt SAMPLE_mga_snps SAMPLE_dnadiff_snps SAMPLE_minimap2_snps
+python3 refine_maf.py samples_ids_in_maf.txt SAMPLE.mga.snps SAMPLE.dnadiff.snps SAMPLE.minimap2.snps
 ```
 
-It generates six files:
+Six files were generated:
 - equals_error10.refine.snps and equal.refine.snps: positions with SNPs detected by the three approaches
 - not_nucmer_not_minimap.refine.snps: positions with SNPs only detected in the MGA approach (mask)
 - only_minimap.refine.snps: positions with SNPs detected by MGA and minimap2 approaches
 - only_nucmer.refine.snps: positions with SNPs detected by MGA and nucmer/dnadiff approaches
 - ambigous_discard.refine.snps: positions with ambiguities of the number of SNPs depending on the approach (mask)
 
-Finally, the two files containing the positions to mask were concatenated:
-
-´´´
+The two files containing the positions to mask were concatenated:
+```
 cat ambigous_discard.refine.snps not_nucmer_not_minimap.refine.snps | sort -n > SNPsMASK.refine.snps
 ```
 
+Before the masking step, additional positions to mask were indicated in individual files for each sample in tsv format with these columns without a header:
+CONTIG_NAME POSITION WT ALT(alternative allele) DEPTH AF(alternative allele frequency)
+Example: contig_1 421150 G T 139 0.258993
+
+In our study, we indicated in these files the positions with non-fixed SNPs (Allele Frequency between 0.1 and 0.9) to exclusively consider fixed SNPs in our downstream analysis. 
 
 ```
-python3 mask_FP_calls_maf.py sample_ids_HZcalls SNPsMASK.refine.snps
+python3 mask_maf.py sample_ids_HZcalls SNPsMASK.refine.snps MGA.maf
 ```
 
 
