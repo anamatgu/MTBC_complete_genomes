@@ -1,7 +1,7 @@
 ## Multiple Genome Alingment (MGA)
 ### Construction of MGA
 
-The MGA was constructed following steps with default parameters recommended by [cactus]()
+The MGA was constructed following steps with default parameters recommended by [cactus](https://github.com/ComparativeGenomicsToolkit/cactus/blob/master/doc/pangenome.md) (v2.8.4)
 ```
 cactus-minigraph jobstore IDs_ASM.txt MGA.sv.gfa --reference MTBCA_ref
 
