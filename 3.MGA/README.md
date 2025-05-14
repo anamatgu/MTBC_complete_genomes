@@ -21,7 +21,7 @@ The first step to refine the MGA obtained by cactus was the detection of single 
 
 1. From the MGA file using a customized Python script. Complete IDs from MAF file should be indicated in a txt file with one ID per row:
 ```
-python3 MTBanc.maf.pairwise.multiprocess.py MGA.maf ids_maf_wcontig
+python3 MTBanc_maf_pairwise_multiprocess.py MGA.maf ids_maf_wcontig
 ```
 
 2. From single assembly files with minimap2 (alignment) and paftools (variant calling)
@@ -53,7 +53,9 @@ cat ambigous_discard.refine.snps not_nucmer_not_minimap.refine.snps | sort -n > 
 ```
 
 Before the masking step, additional positions to mask were indicated in individual files for each sample in tsv format with these columns without a header:
+
 CONTIG_NAME POSITION WT ALT(alternative allele) DEPTH AF(alternative allele frequency)
+
 Example: contig_1 421150 G T 139 0.258993
 
 They must be named following this example: SAMPLE.Npos.changes. In our study, we indicated in these files the positions with non-fixed SNPs (Allele Frequency between 0.1 and 0.9) to exclusively consider fixed SNPs in our downstream analysis. 
