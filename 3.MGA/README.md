@@ -1,7 +1,7 @@
 ## Multiple Genome Alingment (MGA)
 ### Construction of MGA
 
-The MGA was constructed 
+The MGA was constructed following steps with default parameters recommended by [cactus]()
 ```
 cactus-minigraph jobstore IDs_ASM.txt MGA.sv.gfa --reference MTBCA_ref
 
@@ -19,19 +19,19 @@ cactus-hal2maf jobstore MGA.hal MGA.maf.gz --refGenome MTBCA_ref --chunkSize 500
 
 Obtener pairwise distance entre MTB ancestor y todas las secuencias (pueden tenerse en cuenta los contigs o no)
 ```
-python3 /data/ana_compartido/PACBIO/scripts_PACBIO/pairwise_distances/MTBanc.maf.pairwise.multiprocess.py cactus_noAnc_final.maf ids_maf_wcontig
+python3 MTBanc.maf.pairwise.multiprocess.py MGA.maf ids_maf_wcontig
 ```
 Obtener pairwise distances con minimap2
 
 ```
-minimap2 -x asm20 -t 1 -c --cs CCS_G1446.fbAF90.fasta CCS_G1369.fbAF90.fasta | sort -k6,6 -k8,8n | /home/ana/SoftAna/miniconda3/envs/minimap_V2.26/bin/paftools.js call -l 50 -L 50 -f CCS_G1446.fbAF90.fasta - > call.paf
+minimap2 -x asm20 -t 1 -c --cs SAMPLE_ASM.fasta MTBCA_ref.fasta | sort -k6,6 -k8,8n | minimap_V2.26/bin/paftools.js call -l 50 -L 50 -f SAMPLE_ASM.fasta - > call.paf
 
 ```
 
 Obtener pairwise distance con dnadiff
 
 ```
-dnadiff /data/ana_compartido/PACBIO/MTB_annotations/MTBancestor_annotation/MTBancestor.fna {}.fasta -p {}-MTBanc
+dnadiff MTBCA_ref.fasta SAMPLE_ASM.fasta -p prefix
 ```
 
 Determinar la concordancia entre cactus, dnadiff y minimap2
