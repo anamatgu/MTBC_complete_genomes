@@ -17,49 +17,44 @@ cactus-hal2maf jobstore MGA.hal MGA.maf.gz --refGenome MTBCA_ref --chunkSize 500
 
 ### Refinement of MGA
 
-Obtener pairwise distance entre MTB ancestor y todas las secuencias (pueden tenerse en cuenta los contigs o no)
+First steps to refine the MGA obtained by cactus were detecting single variants between the assembly (SAMPLE_ASM) and the MTBCA reference genome (MTBCA_Ref) using three approaches:
+
+1. From the MGA file using a customized Python script:
 ```
 python3 MTBanc.maf.pairwise.multiprocess.py MGA.maf ids_maf_wcontig
 ```
-Obtener pairwise distances con minimap2
+
+2. From single assembly files with minimap2 (alignment) and paftools (variant calling)
 
 ```
-minimap2 -x asm20 -t 1 -c --cs SAMPLE_ASM.fasta MTBCA_ref.fasta | sort -k6,6 -k8,8n | minimap_V2.26/bin/paftools.js call -l 50 -L 50 -f SAMPLE_ASM.fasta - > call.paf
-
+minimap2 -x asm20 -t 1 -c --cs MTBCA_ref.fasta SAMPLE_ASM.fasta  | sort -k6,6 -k8,8n | minimap_V2.26/bin/paftools.js call -l 50 -L 50 -f MTBCA_ref.fasta - > SAMPLE_ASM_REF.asm20.vcf
 ```
 
-Obtener pairwise distance con dnadiff
+3. From dnadiff (alignment and variant calling)
 
 ```
 dnadiff MTBCA_ref.fasta SAMPLE_ASM.fasta -p prefix
 ```
+Once all single variants were identified, the following script was run to classify the variants depending on the concordances between methods. It generates four files: .a
 
-Determinar la concordancia entre cactus, dnadiff y minimap2
 ```
 python3 refine_maf_wcontig.py ids_maf_wcontig
-```
-Unir en una carpeta los snps que vamos a descartar:
-```
+
 cat ambigous_discard.refine.snps not_nucmer_not_minimap.refine.snps | sort -n > SNPsMASK.refine.snps
 ```
-QUITAR NOMBRES RAROS DE los contigs de *.change como ‘manual’ y las coordenadas
-
+Before refine 
 Crear un archivo con los ids de los assemblies que tienen HZ calls:
 
 (está en el cvs refine)
 
 Correr el script para maskear con Ns las posiciones:
 ```
-python3 ../mask_FP_calls_maf.py ids_HZcalls SNPsMASK.refine.snps
-```
-Ordenar las secuencias en cada bloque del MAF
-```
-/home/ana/cactus-bin-v2.8.4/bin/mafRowOrderer -m cactus_noAnc_final_masked.maf --order-file ids_cactus_maflist > cactus_noAnc_final_masked.sorted.maf
+python3 mask_FP_calls_maf.py sample_ids_HZcalls SNPsMASK.refine.snps
 ```
 
 
 ### Pairwise genetic distances from MGA
 
 ```
-python3 /data/ana_compartido/PACBIO/scripts_PACBIO/pairwise_distances/all_to_all.mafmasked.pairwise.multiprocess.py cactus_noAnc_final_masked.sorted.1contig.maf ids_maf_1contig
+python3 all_to_all.mafmasked.pairwise.multiprocess.py MGA_refined.maf sample_ids_maf
 ```
