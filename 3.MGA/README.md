@@ -19,7 +19,7 @@ cactus-hal2maf jobstore MGA.hal MGA.maf.gz --refGenome MTBCA_ref --chunkSize 500
 
 The first step to refine the MGA obtained by cactus was the detection of single variants between all the samples in the MGA (SAMPLE_ASM) and the MTBCA reference genome (MTBCA_Ref) using three approaches:
 
-1. From the MGA file using a customized Python script:
+1. From the MGA file using a customized Python script. Complete IDs from MAF file should be indicated in a txt file with one ID per row:
 ```
 python3 MTBanc.maf.pairwise.multiprocess.py MGA.maf ids_maf_wcontig
 ```
@@ -56,10 +56,10 @@ Before the masking step, additional positions to mask were indicated in individu
 CONTIG_NAME POSITION WT ALT(alternative allele) DEPTH AF(alternative allele frequency)
 Example: contig_1 421150 G T 139 0.258993
 
-In our study, we indicated in these files the positions with non-fixed SNPs (Allele Frequency between 0.1 and 0.9) to exclusively consider fixed SNPs in our downstream analysis. 
+They must be named following this example: SAMPLE.Npos.changes. In our study, we indicated in these files the positions with non-fixed SNPs (Allele Frequency between 0.1 and 0.9) to exclusively consider fixed SNPs in our downstream analysis. 
 
 ```
-python3 mask_maf.py sample_ids_HZcalls SNPsMASK.refine.snps MGA.maf
+python3 mask_maf.py sample_ids_additional_masking SNPsMASK.refine.snps MGA.maf
 ```
 
 
