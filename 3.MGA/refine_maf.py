@@ -12,8 +12,8 @@ dnadiff_dic = {}
 minimap_dic = {}
 
 
-for sample in list_ids: ##Parsing the three snps files from different approaches
-	with open(sample + '_mga_snps', "r") as maf:
+for sample in list_ids: ##Parsing the three SNP files from different approaches
+	with open(sample + '.mga.snps', "r") as maf:
 		for line in maf:
 			linea = line.strip().split()
 			pos_maf = int(linea[1])
@@ -21,7 +21,7 @@ for sample in list_ids: ##Parsing the three snps files from different approaches
 				maf_dic[pos_maf] = [sample]
 			else:
 				maf_dic[pos_maf].append(sample)
-	with open(sample + '_dnadiff_snps', "r") as dnadiff:
+	with open(sample + '.dnadiff.snps', "r") as dnadiff:
 		for line in dnadiff:
 			linea = line.strip().split()
 			if linea[1] != '.' and linea[2] != '.':
@@ -30,7 +30,7 @@ for sample in list_ids: ##Parsing the three snps files from different approaches
 					dnadiff_dic[pos_dnadiff] = [sample]
 				else:
 					dnadiff_dic[pos_dnadiff].append(sample)
-	with open(sample + '_minimap2_snps', "r") as minimap:
+	with open(sample + '.minimap2.snps', "r") as minimap:
 		for line in minimap:
 			if not line.startswith('#'):
 				linea = line.strip().split()
