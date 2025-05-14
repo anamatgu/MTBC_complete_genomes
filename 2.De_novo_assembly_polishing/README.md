@@ -15,10 +15,14 @@ circlator all --assembler canu SAMPLE_ASM.fasta SAMPLE.fastq.gz SAMPLE_ASM.circl
 
 ### Customized polishing with long reads
 
-```
-samtools faidx SAMPLE_ASM.fasta
+ [pbmm2](https://github.com/PacificBiosciences/pbmm2) (v1.13)
+ [vt](https://genome.sph.umich.edu/wiki/Vt) (v0.57721)
+ [freebayes](https://github.com/freebayes/freebayes) (v1.3.6)
 
+```
 pbmm2 align SAMPLE_ASM.fasta SAMPLE.fastq SAMPLE_ASM_LRS.sort.bam --preset CCS --sort --sample SAMPLE --rg '@RG\tID:mXXXXX\tSM:mysample'
+
+samtools faidx SAMPLE_ASM.fasta
 
 freebayes -f SAMPLE_ASM.fasta -m 0 --min-coverage 3 -R 0 -p 1 -F 0.1 -E -1 -b SAMPLE_ASM_LRS.sort.bam --vcf SAMPLE.AF10.vcf
 
@@ -26,12 +30,15 @@ cat SAMPLE.AF10.vcf | vt normalize - -r SAMPLE.fasta -q > SAMPLE.vt.AF10.vcf; do
 ```
 
 Indicate the path to vt in the script
+
 ```
 python polishing.py SAMPLE.vt.AF10.vcf SAMPLE_ASM.fasta
 ```
 
 
 ### Lift over of H37Rv genomic coordinates
+
+To convert the genomics coordinates from H37Rv to each assembly the [liftoff tool](https://github.com/agshumate/Liftoff) (v1.6.3) was used with the following parameters:
 
 ```
 liftoff -g H37Rv.gff3 -o SAMPLE_ASM.gff3 -u SAMPLE.unmapped_features -dir SAMPLE.intermediate_files SAMPLE_ASM.fasta Mycobacterium_tuberculosis_H37Rv_genome.fasta -copies -f additional -overlap 0.2
