@@ -17,7 +17,7 @@ cactus-hal2maf jobstore MGA.hal MGA.maf.gz --refGenome MTBCA_ref --chunkSize 500
 
 ### Refinement of MGA
 
-First steps to refine the MGA obtained by cactus were detecting single variants between the assembly (SAMPLE_ASM) and the MTBCA reference genome (MTBCA_Ref) using three approaches:
+The first step to refine the MGA obtained by cactus was the detection of single variants between all the samples in the MGA (SAMPLE_ASM) and the MTBCA reference genome (MTBCA_Ref) using three approaches:
 
 1. From the MGA file using a customized Python script:
 ```
@@ -27,27 +27,33 @@ python3 MTBanc.maf.pairwise.multiprocess.py MGA.maf ids_maf_wcontig
 2. From single assembly files with minimap2 (alignment) and paftools (variant calling)
 
 ```
-minimap2 -x asm20 -t 1 -c --cs MTBCA_ref.fasta SAMPLE_ASM.fasta  | sort -k6,6 -k8,8n | minimap_V2.26/bin/paftools.js call -l 50 -L 50 -f MTBCA_ref.fasta - > SAMPLE_ASM_REF.asm20.vcf
+minimap2 -x asm20 -t 1 -c --cs MTBCA_ref.fasta SAMPLE_ASM.fasta  | sort -k6,6 -k8,8n | minimap_V2.26/bin/paftools.js call -l 50 -L 50 -f MTBCA_ref.fasta - > SAMPLE_ASM_REF.vcf
 ```
 
-3. From dnadiff (alignment and variant calling)
+3. From single assembly files with nucmer/dnadiff (alignment and variant calling)
 
 ```
 dnadiff MTBCA_ref.fasta SAMPLE_ASM.fasta -p prefix
 ```
-Once all single variants were identified, the following script was run to classify the variants depending on the concordances between methods. It generates four files: .a
-
+Once all single variants were identified, the following script was run to classify them based on the concordance between methods. The file samples_ids_in_maf.txt must contain all the sample IDs in the MGA (maf format), one per row. The files with the results of the variant calling from each approach must match the following names:
 ```
-python3 refine_maf_wcontig.py ids_maf_wcontig
+python3 refine_maf.py samples_ids_in_maf.txt SAMPLE_mga_snps SAMPLE_dnadiff_snps SAMPLE_minimap2_snps
+```
 
+It generates six files:
+- equals_error10.refine.snps and equal.refine.snps: positions with SNPs detected by the three approaches
+- not_nucmer_not_minimap.refine.snps: positions with SNPs only detected in the MGA approach (mask)
+- only_minimap.refine.snps: positions with SNPs detected by MGA and minimap2 approaches
+- only_nucmer.refine.snps: positions with SNPs detected by MGA and nucmer/dnadiff approaches
+- ambigous_discard.refine.snps: positions with ambiguities of the number of SNPs depending on the approach (mask)
+
+Finally, the two files containing the positions to mask were concatenated:
+
+´´´
 cat ambigous_discard.refine.snps not_nucmer_not_minimap.refine.snps | sort -n > SNPsMASK.refine.snps
 ```
-Before refine 
-Crear un archivo con los ids de los assemblies que tienen HZ calls:
 
-(está en el cvs refine)
 
-Correr el script para maskear con Ns las posiciones:
 ```
 python3 mask_FP_calls_maf.py sample_ids_HZcalls SNPsMASK.refine.snps
 ```
