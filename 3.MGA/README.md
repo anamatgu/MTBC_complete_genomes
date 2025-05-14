@@ -67,6 +67,7 @@ python3 mask_maf.py sample_ids_additional_masking SNPsMASK.refine.snps MGA.maf
 
 ### Pairwise genetic distances from MGA
 
+Finally, once the refined MGA was obtained, pairwise variant calling between all the samples in the MGA was performed with the following script:
 ```
-python3 all_to_all.mafmasked.pairwise.multiprocess.py MGA_refined.maf sample_ids_maf
+python3 all2all_mafmasked_pairwise_multiprocess.py MGA_refined.maf sample_ids_in_maf
 ```
