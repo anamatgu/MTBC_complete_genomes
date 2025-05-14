@@ -1,16 +1,17 @@
 ## Multiple Genome Alingment (MGA)
 ### Construction of MGA
 
+The MGA was constructed 
 ```
-cactus-minigraph jobstore asmhifi_217.txt cactus.sv.gfa --reference MTB_ancestor_reference --mapCores XX
+cactus-minigraph jobstore IDs_ASM.txt MGA.sv.gfa --reference MTBCA_ref
 
-cactus-graphmap jobstore asmhifi_217.txt cactus.sv.gfa cactus.paf --outputFasta cactus.sv.gfa.fa --reference MTB_ancestor_reference --mapCores 
+cactus-graphmap jobstore IDs_ASM.txt MGA.sv.gfa cactus.paf --outputFasta MGA.sv.gfa.fa --reference MTBCA_ref
 
-cactus-align jobstore asmhifi_217.txt cactus.paf cactus.hal --reference MTB_ancestor_reference --pangenome --outVG --maxLen 10000
+cactus-align jobstore IDs_ASM.txt MGA.paf MGA.hal --reference MTBCA_ref --pangenome --outVG --maxLen 10000
 
-cactus-graphmap-join jobstore --vg cactus.vg --outDir cactus_final_pangenome --outName cactus_pangenome --reference MTB_ancestor_reference --vcf --gfa --gbz --giraffe clip --haplo --odgi
+cactus-graphmap-join jobstore --vg MGA.vg --outDir MGA_final --outName MGA_final --reference MTBCA_ref --vcf --gfa --gbz --giraffe clip --haplo --odgi
 
-cactus-hal2maf ./jobstore cactus.hal cactus_noAnc.maf.gz --refGenome MTB_ancestor_reference --chunkSize 500000 --dupeMode single --noAncestors
+cactus-hal2maf jobstore MGA.hal MGA.maf.gz --refGenome MTBCA_ref --chunkSize 500000 --dupeMode single --noAncestors
 ```
 
 
