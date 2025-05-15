@@ -29,7 +29,7 @@ freebayes -f SAMPLE_ASM.fasta -m 0 --min-coverage 3 -R 0 -p 1 -F 0.1 -E -1 -b SA
 
 cat SAMPLE.AF10.vcf | vt normalize - -r SAMPLE.fasta -q > SAMPLE.vt.AF10.vcf; done
 ```
-2. The following script was customized to introduce the validated changes in the assembly. To successfully run this script, the path to vt must be changed in the code.
+2. The following script was customized to introduce the validated changes in the assembly. To successfully run this script, the path to vt must be define in the code.
 
 ```
 python polishing.py SAMPLE.vt.AF10.vcf SAMPLE_ASM.fasta
