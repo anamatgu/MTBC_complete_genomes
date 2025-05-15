@@ -5,4 +5,7 @@ This repository has been created to describe and reproduce the steps followed fo
 2. _De novo_ assembly, polishing, and lift-over
 4. Multiple Genome Alignment: construction, refinement, and variant calling
 
+
+##Data availability
+
 The MTBC long-read sequences and assemblies analyzed in this study have been deposited on the [European Nucleotide Archive](https://www.ebi.ac.uk/ena/browser/home) project PRJEB89421. An inferred MTBC most likely common ancestor (MTBCA) was used as the reference genome, and it can be found on https://doi.org/10.5281/zenodo.3497110
