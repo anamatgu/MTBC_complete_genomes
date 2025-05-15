@@ -1,5 +1,5 @@
 # Analysis of MTBC complete genomes
-This repository has been created to describe the steps followed for analysing a dataset composed of 216 Mycobacterium tuberculosis complex (MTBC) complete genomes. The repository contains different directories with specific analyses and customized scripts that follow this order:
+This repository has been created to describe and reproduce the steps followed for analysing a dataset composed of 216 Mycobacterium tuberculosis complex (MTBC) complete genomes. The repository contains different directories with specific analyses and customized scripts that follow this order:
 
 1. Filtering and quality control of long reads
 2. _De novo_ assembly, polishing, and lift-over
